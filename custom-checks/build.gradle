@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    jcenter()
+}
+
+configurations {
+    testJavac {
+        transitive false
+    }
+}
+
+dependencies {
+    compileOnly 'com.google.errorprone:error_prone_check_api:2.3.4'
+    compileOnly 'com.google.auto.service:auto-service-annotations:1.0-rc6'
+    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc6'
+
+    testJavac 'com.google.errorprone:javac:9+181-r4173-1'
+    testImplementation 'com.google.errorprone:error_prone_test_helpers:2.3.4'
+    testRuntimeOnly 'org.projectlombok:lombok:1.18.10'
+}
+
+test {
+    jvmArgs "-Xbootclasspath/p:${configurations.testJavac.singleFile}"
+}

@@ -1,0 +1,30 @@
+load("@rules_java//java:defs.bzl", "java_library", "java_plugin")
+
+package(default_visibility = ["//visibility:private"])
+
+java_plugin(
+    name = "CustomCheckPlugin",
+    srcs = glob(["*.java"]),
+    visibility = ["//visibility:public"],
+    deps = [
+        ":auto_service",
+        "@maven//:com_google_auto_service_auto_service",
+        "@maven//:com_google_errorprone_error_prone_annotation",
+        "@maven//:com_google_errorprone_error_prone_check_api",
+        "@maven//:com_google_errorprone_javac",
+        "@maven//:com_google_guava_guava",
+    ],
+)
+
+java_library(
+    name = "auto_service",
+    exported_plugins = [":auto_service_plugin"],
+    visibility = ["//visibility:public"],
+    exports = ["@maven//:com_google_auto_service_auto_service"],
+)
+
+java_plugin(
+    name = "auto_service_plugin",
+    processor_class = "com.google.auto.service.processor.AutoServiceProcessor",
+    deps = ["@maven//:com_google_auto_service_auto_service"],
+)

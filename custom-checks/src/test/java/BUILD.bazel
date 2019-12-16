@@ -1,0 +1,15 @@
+load("@rules_java//java:defs.bzl", "java_test")
+
+package(default_visibility = ["//visibility:private"])
+
+java_test(
+    name = "LombokDataAndBuilderTest",
+    srcs = ["LombokDataAndBuilderTest.java"],
+    data = ["@maven//:com_google_errorprone_javac"],
+    jvm_flags = ["-Xbootclasspath/p:$(location @maven//:com_google_errorprone_javac)"],
+    runtime_deps = ["@maven//:org_projectlombok_lombok"],
+    deps = [
+        "//custom-checks/src/main/java:CustomCheckPlugin",
+        "@maven//:com_google_errorprone_error_prone_test_helpers",
+    ],
+)

@@ -1,0 +1,20 @@
+load("@rules_java//java:defs.bzl", "java_library", "java_plugin")
+
+java_library(
+    name = "Example",
+    srcs = ["Example.java"],
+    plugins = [
+        ":lombok_plugin",
+        "//custom-checks/src/main/java:CustomCheckPlugin",
+    ],
+    deps = [
+        "@maven//:org_projectlombok_lombok",
+    ],
+)
+
+java_plugin(
+    name = "lombok_plugin",
+    generates_api = 1,
+    processor_class = "lombok.launch.AnnotationProcessorHider$AnnotationProcessor",
+    deps = ["@maven//:org_projectlombok_lombok"],
+)
